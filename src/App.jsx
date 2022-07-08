@@ -3,23 +3,41 @@ import './App.css'
 import Checkout from './Checkout'
 import Header from './Header'
 import Home from './Home'
+import Login from './Login'
 
 function App () {
   return (
     <Router>
       <div className='app'>
-        <Header />
         <Routes>
-          <Route path='/' element={<Home />} />
+          <Route
+            path='/'
+            element={
+              <>
+                <Header />
+                <Home />
+              </>
+            }
+          />
+          <Route path='/login' element={<Login />} />
           <Route
             path='/checkout'
             element={
               <>
+                <Header />
                 <Checkout />
               </>
             }
           />
-          <Route path='*' element={<Home />} />
+          <Route
+            path='*'
+            element={
+              <>
+                <Header />
+                <Home />
+              </>
+            }
+          />
         </Routes>
       </div>
     </Router>
