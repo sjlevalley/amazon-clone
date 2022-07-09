@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Login.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   auth,
   createUserWithEmailAndPassword,
@@ -8,19 +8,20 @@ import {
 } from "./firebase";
 
 function Login() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const signIn = async (e) => {
     e.preventDefault();
-    console.log("Hello");
     try {
       const signedInUser = await signInWithEmailAndPassword(
         auth,
-        "test@email.com",
-        "password"
+        email,
+        password
       );
       console.log(signedInUser);
+      navigate("/");
     } catch (e) {
       console.error(e);
     }
@@ -28,14 +29,14 @@ function Login() {
 
   const register = async (e) => {
     e.preventDefault();
-    console.log("Hello");
     try {
       const createdUser = await createUserWithEmailAndPassword(
         auth,
-        "test@email.com",
-        "password"
+        email,
+        password
       );
       console.log(createdUser);
+      navigate("/");
     } catch (e) {
       console.error(e);
     }

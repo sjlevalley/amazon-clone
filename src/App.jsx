@@ -1,17 +1,38 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import './App.css'
-import Checkout from './Checkout'
-import Header from './Header'
-import Home from './Home'
-import Login from './Login'
+import React, { useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import "./App.css";
+import Checkout from "./Checkout";
+import Header from "./Header";
+import Home from "./Home";
+import Login from "./Login";
+import { auth } from "./firebase";
+import { useStateValue } from "./StateProvider";
 
-function App () {
+function App() {
+  const [{ basket }, dispatch] = useStateValue();
+  useEffect(() => {
+    auth.onAuthStateChanged((authUser) => {
+      console.log("The User Is >>>", authUser);
+      if (authUser) {
+        dispatch({
+          type: "SET_USER",
+          user: authUser,
+        });
+      } else {
+        dispatch({
+          type: "SET_USER",
+          user: null,
+        });
+      }
+    });
+  }, []);
+
   return (
     <Router>
-      <div className='app'>
+      <div className="app">
         <Routes>
           <Route
-            path='/'
+            path="/"
             element={
               <>
                 <Header />
@@ -19,9 +40,9 @@ function App () {
               </>
             }
           />
-          <Route path='/login' element={<Login />} />
+          <Route path="/login" element={<Login />} />
           <Route
-            path='/checkout'
+            path="/checkout"
             element={
               <>
                 <Header />
@@ -30,7 +51,7 @@ function App () {
             }
           />
           <Route
-            path='*'
+            path="*"
             element={
               <>
                 <Header />
@@ -41,7 +62,7 @@ function App () {
         </Routes>
       </div>
     </Router>
-  )
+  );
 }
 
-export default App
+export default App;
