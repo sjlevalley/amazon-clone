@@ -5,6 +5,7 @@ import Checkout from "./Checkout";
 import Header from "./Header";
 import Home from "./Home";
 import Login from "./Login";
+import Orders from "./Orders";
 import { auth } from "./firebase";
 import { useStateValue } from "./StateProvider";
 import Payment from "./Payment";
@@ -19,7 +20,6 @@ function App() {
   const [{ basket }, dispatch] = useStateValue();
   useEffect(() => {
     auth.onAuthStateChanged((authUser) => {
-      console.log("The User Is >>>", authUser);
       if (authUser) {
         dispatch({
           type: "SET_USER",
@@ -47,6 +47,12 @@ function App() {
       <Checkout />
     </>
   );
+  const HeaderOrders = () => (
+    <>
+      <Header />
+      <Orders />
+    </>
+  );
 
   const HeaderPayment = () => (
     <>
@@ -62,6 +68,7 @@ function App() {
       <div className="app">
         <Routes>
           <Route path="/" element={<HeaderHome />} />
+          <Route path="/orders" element={<HeaderOrders />} />
           <Route path="/login" element={<Login />} />
           <Route path="/checkout" element={<HeaderCheckout />} />
           <Route path="/payment" element={<HeaderPayment />} />
