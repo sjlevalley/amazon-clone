@@ -49,8 +49,8 @@ function Payment() {
         card: elements.getElement(CardElement),
       },
     });
-    const orderRef = doc(db, "orders", paymentIntent.id);
-    await setDoc(orderRef, {
+    const userRef = doc(db, "users", user?.uid, "orders", paymentIntent?.id);
+    await setDoc(userRef, {
       basket: basket,
       amount: paymentIntent.amount,
       amountDollars: `$${paymentIntent.amount / 100}`,
@@ -69,8 +69,6 @@ function Payment() {
   };
 
   const handleChange = (e) => {
-    // Listen for changes in the CardElement
-    // and display any errors as the customer types their card details
     setDisabled(e.empty);
     setError(e.error ? e.error.message : "");
   };
@@ -81,8 +79,6 @@ function Payment() {
         <h1>
           Checkout (<Link to="/checkout">{basket?.length} items</Link>)
         </h1>
-
-        {/* Payment section - delivery address */}
         <div className="payment__section">
           <div className="payment__title">
             <h3>Delivery Address</h3>
@@ -93,8 +89,6 @@ function Payment() {
             <p>Los Angeles, CA</p>
           </div>
         </div>
-
-        {/* Payment section - Review Items */}
         <div className="payment__section">
           <div className="payment__title">
             <h3>Review items and delivery</h3>
@@ -111,15 +105,11 @@ function Payment() {
             ))}
           </div>
         </div>
-
-        {/* Payment section - Payment method */}
         <div className="payment__section">
           <div className="payment__title">
             <h3>Payment Method</h3>
           </div>
           <div className="payment__details">
-            {/* Stripe stuff */}
-
             <form onSubmit={handleSubmit}>
               <CardElement onChange={handleChange} />
 
@@ -136,8 +126,6 @@ function Payment() {
                   <span>{processing ? <p>Processing</p> : "Buy Now"}</span>
                 </button>
               </div>
-
-              {/* Errors */}
               {error && <div>{error}</div>}
             </form>
           </div>

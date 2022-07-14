@@ -1,0 +1,23 @@
+.order {
+  background-color: white;
+  border: 1px solid lightgray;
+  margin: 20px 0;
+  padding: 40px;
+  position: relative;
+}
+
+.order__title {
+  align-items: center;
+  display: flex;
+  margin: 0 0 10px 0;
+}
+
+.order__title > small {
+  font-weight: bold;
+  margin-left: 10px;
+}
+
+.order__total {
+  font-weight: 500;
+  text-align: right;
+}

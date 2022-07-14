@@ -1,25 +1,24 @@
 .header {
-  height: 60px;
-  display: flex;
   align-items: center;
   background-color: #131921;
+  display: flex;
+  height: 60px;
   position: sticky;
   top: 0;
   z-index: 100;
 }
 
 .header__logo {
-  width: 100px;
+  margin: 18px 20px 0 20px;
   object-fit: contain;
-  margin: 0 20px;
-  margin-top: 18px;
+  width: 100px;
 }
 
 .header__search {
   display: flex;
   flex: 1;
   align-items: center;
-  border-radius: 24px;
+  border-radius: 10px;
 }
 
 .header__searchInput {
@@ -30,6 +29,7 @@
 }
 
 .header__searchIcon {
+  cursor: pointer;
   padding: 5px;
   height: 22px !important;
   background-color: #cd9042;
@@ -63,7 +63,13 @@
 .header__option {
   display: flex;
   flex-direction: column;
-  margin-left: 10px;
-  margin-right: 10px;
+  margin: 0 15px;
   color: white;
+  transition: all 0.1s;
+}
+.header__option:hover {
+  transform: scale(1.04);
+}
+.header__option:active {
+  transform: scale(0.96);
 }

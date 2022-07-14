@@ -30,4 +30,11 @@
   height: 30px;
   margin-top: 10px;
   width: 100%;
+  transition: all 0.1s;
+}
+.subtotal > button:hover {
+  transform: scale(1.02);
+}
+.subtotal > button:active {
+  transform: scale(0.98);
 }
