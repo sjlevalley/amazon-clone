@@ -1,26 +1,27 @@
 import React, { useState, useEffect } from "react";
-import "./Payment.css";
-import { useStateValue } from "./StateProvider";
-import CheckoutProduct from "./CheckoutProduct";
 import { Link, useNavigate } from "react-router-dom";
-import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
-import CurrencyFormat from "react-currency-format";
-import { getBasketTotal } from "./reducer";
 import axios from "./axios";
-import { db } from "./firebase";
+import CurrencyFormat from "react-currency-format";
+import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { doc, setDoc } from "firebase/firestore";
+// Local imports
+import CheckoutProduct from "./CheckoutProduct";
+import "./Payment.css";
+import { db } from "./firebase";
+import { getBasketTotal } from "./reducer";
+import { useStateValue } from "./StateProvider";
 
 function Payment() {
   const [{ basket, user }, dispatch] = useStateValue();
+  const elements = useElements();
   const navigate = useNavigate();
   const stripe = useStripe();
-  const elements = useElements();
 
-  const [succeeded, setSucceeded] = useState(false);
-  const [processing, setProcessing] = useState("");
-  const [error, setError] = useState(null);
-  const [disabled, setDisabled] = useState(true);
   const [clientSecret, setClientSecret] = useState(true);
+  const [disabled, setDisabled] = useState(true);
+  const [error, setError] = useState(null);
+  const [processing, setProcessing] = useState("");
+  const [succeeded, setSucceeded] = useState(false);
 
   useEffect(() => {
     // generate the special stripe secret which allows us to charge a customer
@@ -32,35 +33,36 @@ function Payment() {
       });
       setClientSecret(response.data.clientSecret);
     };
-
-    getClientSecret();
+    try {
+      getClientSecret();
+    } catch (e) {
+      console.error(e);
+    }
   }, [basket]);
 
-  // console.log("👱", user);
-
   const handleSubmit = async (event) => {
-    // do all the fancy stripe stuff...
     event.preventDefault();
     setProcessing(true);
-
-    // paymentIntent = payment confirmation
-    const { paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
-      payment_method: {
-        card: elements.getElement(CardElement),
-      },
-    });
-    const userRef = doc(db, "users", user?.uid, "orders", paymentIntent?.id);
-    await setDoc(userRef, {
-      basket: basket,
-      amount: paymentIntent.amount,
-      amountDollars: `$${paymentIntent.amount / 100}`,
-      created: paymentIntent.created,
-    });
-
+    try {
+      // paymentIntent = payment confirmation
+      const { paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: elements.getElement(CardElement),
+        },
+      });
+      const userRef = doc(db, "users", user?.uid, "orders", paymentIntent?.id);
+      await setDoc(userRef, {
+        basket: basket,
+        amount: paymentIntent.amount,
+        amountDollars: `$${paymentIntent.amount / 100}`,
+        created: paymentIntent.created,
+      });
+    } catch (e) {
+      console.error(e);
+    }
     setSucceeded(true);
     setError(null);
     setProcessing(false);
-
     dispatch({
       type: "EMPTY_BASKET",
     });
@@ -112,7 +114,6 @@ function Payment() {
           <div className="payment__details">
             <form onSubmit={handleSubmit}>
               <CardElement onChange={handleChange} />
-
               <div className="payment__priceContainer">
                 <CurrencyFormat
                   renderText={(value) => <h3>Order Total: {value}</h3>}

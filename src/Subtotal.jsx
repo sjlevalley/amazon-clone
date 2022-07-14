@@ -1,9 +1,9 @@
 import React from "react";
-import "./Subtotal.css";
-import CurrencyFormat from "react-currency-format";
-import { useStateValue } from "./StateProvider";
-import { getBasketTotal } from "./reducer";
 import { useNavigate } from "react-router-dom";
+import CurrencyFormat from "react-currency-format";
+import { getBasketTotal } from "./reducer";
+import { useStateValue } from "./StateProvider";
+import "./Subtotal.css";
 
 function Subtotal() {
   const navigate = useNavigate();
@@ -16,7 +16,6 @@ function Subtotal() {
         renderText={(value) => (
           <>
             <p>
-              {/* Part of the homework */}
               Subtotal ({basket?.length} items): <strong>{value}</strong>
             </p>
             <small className="subtotal__gift">
@@ -25,7 +24,7 @@ function Subtotal() {
           </>
         )}
         decimalScale={2}
-        value={getBasketTotal(basket)} // Part of the homework
+        value={getBasketTotal(basket)}
         displayType={"text"}
         thousandSeparator={true}
         prefix={"$"}

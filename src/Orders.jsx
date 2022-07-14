@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { db } from "./firebase";
-import "./Orders.css";
+import { query, orderBy, collection, getDocs } from "firebase/firestore";
+// Local imports
 import Order from "./Order";
+import { db } from "./firebase";
 import { useStateValue } from "./StateProvider";
-// import Order from "./Order";
-import { doc, query, orderBy, collection, getDocs } from "firebase/firestore";
+import "./Orders.css";
 
 function Orders() {
-  const [{ basket, user }, dispatch] = useStateValue();
+  // eslint-disable-next-line
+  const [{ user }, dispatch] = useStateValue();
   const [orders, setOrders] = useState([]);
-
-  console.log(orders);
 
   useEffect(() => {
     if (user) {
@@ -27,7 +26,11 @@ function Orders() {
         });
         setOrders(updatedOrders);
       };
-      fetchOrders();
+      try {
+        fetchOrders();
+      } catch (e) {
+        console.error(e);
+      }
     } else {
       setOrders([]);
     }
@@ -36,7 +39,6 @@ function Orders() {
   return (
     <div className="orders">
       <h1>Your Orders</h1>
-
       <div className="orders__order">
         {orders?.map((order) => (
           <Order order={order} />

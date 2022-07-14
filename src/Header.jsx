@@ -1,11 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-// import styled from "styled-components";
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
+import { auth } from "./firebase";
 import "./Header.css";
 import { useStateValue } from "./StateProvider";
-import { auth } from "./firebase";
 
 function Header() {
   // eslint-disable-next-line

@@ -12,6 +12,18 @@
   z-index: 1;
 }
 
+.product__addToBasket {
+  border-radius: 2px;
+  padding: 5px;
+  transition: all 0.1s;
+}
+.product__addToBasket:hover {
+  transform: scale(1.02);
+}
+.product__addToBasket:active {
+  transform: scale(0.98);
+}
+
 .product__rating {
   display: flex;
 }
