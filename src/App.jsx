@@ -8,7 +8,7 @@ import Home from "./Home";
 import Login from "./Login";
 import Orders from "./Orders";
 import Payment from "./Payment";
-import { auth } from "./firebase";
+import { auth } from "./firebase-setup";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { useStateValue } from "./StateProvider";
@@ -18,6 +18,7 @@ const promise = loadStripe(
 );
 
 function App() {
+  // eslint-disable-next-line
   const [{ basket }, dispatch] = useStateValue();
   useEffect(() => {
     auth.onAuthStateChanged((authUser) => {
@@ -33,6 +34,7 @@ function App() {
         });
       }
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const HeaderHome = () => (

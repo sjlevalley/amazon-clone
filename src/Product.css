@@ -1,6 +1,7 @@
 .product {
   align-items: center;
   background-color: white;
+  border-radius: 2px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -8,8 +9,14 @@
   max-height: 400px;
   min-width: 100px;
   padding: 20px;
+  transition: all 0.1s;
   width: 100%;
   z-index: 1;
+}
+
+.product:hover {
+  transform: scale(1.01);
+  box-shadow: 0px 0px 10px #11111175;
 }
 
 .product__addToBasket {

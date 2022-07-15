@@ -4,7 +4,7 @@ import {
   auth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-} from "./firebase";
+} from "./firebase-setup";
 import "./Login.css";
 
 function Login() {

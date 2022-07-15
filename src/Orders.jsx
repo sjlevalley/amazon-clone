@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { query, orderBy, collection, getDocs } from "firebase/firestore";
 // Local imports
 import Order from "./Order";
-import { db } from "./firebase";
+import { db } from "./firebase-setup";
 import { useStateValue } from "./StateProvider";
 import "./Orders.css";
 

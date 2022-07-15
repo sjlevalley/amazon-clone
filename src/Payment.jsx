@@ -7,7 +7,7 @@ import { doc, setDoc } from "firebase/firestore";
 // Local imports
 import CheckoutProduct from "./CheckoutProduct";
 import "./Payment.css";
-import { db } from "./firebase";
+import { db } from "./firebase-setup";
 import { getBasketTotal } from "./reducer";
 import { useStateValue } from "./StateProvider";
 

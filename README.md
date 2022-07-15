@@ -47,9 +47,13 @@ This project was derived from the 'Clever Programmers' channel on YouTube.
 
 <hr>
 
+### Start Application Front-End
+
+`npm start` - From project root
+
 ### Start Firebase Functions Emulators
 
-`firebase emulators:start`
+`firebase emulators:start` - To start back end locally, run this command from functions folder
 
 ### Deploy to Firebase
 
