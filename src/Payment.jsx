@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "./axios";
 import CurrencyFormat from "react-currency-format";
@@ -8,14 +9,18 @@ import { doc, setDoc } from "firebase/firestore";
 import CheckoutProduct from "./CheckoutProduct";
 import "./Payment.css";
 import { db } from "./firebase-setup";
-import { getBasketTotal } from "./reducer";
-import { useStateValue } from "./StateProvider";
+import { emptyBasket } from "./redux/basketSlice/basketReducer";
 
 function Payment() {
-  const [{ basket, user }, dispatch] = useStateValue();
+  const dispatch = useDispatch();
+  const basket = useSelector((state) => state.basket.basket);
+  const user = useSelector((state) => state.user.user);
   const elements = useElements();
   const navigate = useNavigate();
   const stripe = useStripe();
+
+  const getBasketTotal = () =>
+    basket?.reduce((amount, item) => item.price + amount, 0);
 
   const [clientSecret, setClientSecret] = useState(true);
   const [disabled, setDisabled] = useState(true);
@@ -38,6 +43,7 @@ function Payment() {
     } catch (e) {
       console.error(e);
     }
+    // eslint-disable-next-line
   }, [basket]);
 
   const handleSubmit = async (event) => {
@@ -63,10 +69,7 @@ function Payment() {
     setSucceeded(true);
     setError(null);
     setProcessing(false);
-    dispatch({
-      type: "EMPTY_BASKET",
-    });
-
+    dispatch(emptyBasket);
     navigate("/orders", { replace: true });
   };
 

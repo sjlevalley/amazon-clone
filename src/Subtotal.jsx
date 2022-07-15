@@ -1,14 +1,14 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import CurrencyFormat from "react-currency-format";
 import { getBasketTotal } from "./reducer";
-import { useStateValue } from "./StateProvider";
 import "./Subtotal.css";
 
 function Subtotal() {
   const navigate = useNavigate();
   // eslint-disable-next-line
-  const [{ basket }, dispatch] = useStateValue();
+  const basket = useSelector((state) => state.basket.basket);
 
   return (
     <div className="subtotal">

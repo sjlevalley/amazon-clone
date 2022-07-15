@@ -1,22 +1,23 @@
 import React from "react";
-import { useStateValue } from "./StateProvider";
+import { useDispatch } from "react-redux";
+import { addToBasket } from "./redux/basketSlice/basketReducer";
+
 import "./Product.css";
 
 function Product({ id, title, image, price, rating }) {
   // eslint-disable-next-line
-  const [{ basket }, dispatch] = useStateValue();
+  const dispatch = useDispatch();
 
-  const addToBasket = () => {
-    dispatch({
-      type: "ADD_TO_BASKET",
-      item: {
-        id,
-        title,
-        image,
-        price,
-        rating,
-      },
-    });
+  const addItem = () => {
+    const newItem = {
+      id,
+      title,
+      image,
+      price,
+      rating,
+    };
+
+    dispatch(addToBasket(newItem));
   };
   return (
     <div className="product">
@@ -35,7 +36,7 @@ function Product({ id, title, image, price, rating }) {
         </div>
       </div>
       <img src={image} alt="" />
-      <button className="product__addToBasket" onClick={addToBasket}>
+      <button className="product__addToBasket" onClick={() => addItem()}>
         Add to Basket
       </button>
     </div>

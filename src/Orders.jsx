@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { query, orderBy, collection, getDocs } from "firebase/firestore";
+import { useSelector } from "react-redux";
 // Local imports
 import Order from "./Order";
 import { db } from "./firebase-setup";
-import { useStateValue } from "./StateProvider";
 import "./Orders.css";
 
 function Orders() {
   // eslint-disable-next-line
-  const [{ user }, dispatch] = useStateValue();
+  const user = useSelector((state) => state.user.user);
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {

@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // Local imports
 import "./App.css";
@@ -11,7 +12,7 @@ import Payment from "./Payment";
 import { auth } from "./firebase-setup";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-import { useStateValue } from "./StateProvider";
+import { setUser } from "./redux/userSlice/userReducer";
 
 const promise = loadStripe(
   "pk_test_51LKNirLXlD5FhXLSqnuCxjet0Jq7aELEBpUNIgiKUKZdv2a3wj6EI1YEx0iNfSoKu1xZXHMq0Pje1J9HC51ps3sd00KeVxwvQl"
@@ -19,19 +20,13 @@ const promise = loadStripe(
 
 function App() {
   // eslint-disable-next-line
-  const [{ basket }, dispatch] = useStateValue();
+  const dispatch = useDispatch();
   useEffect(() => {
     auth.onAuthStateChanged((authUser) => {
       if (authUser) {
-        dispatch({
-          type: "SET_USER",
-          user: authUser,
-        });
+        dispatch(setUser(authUser));
       } else {
-        dispatch({
-          type: "SET_USER",
-          user: null,
-        });
+        dispatch(setUser(null));
       }
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps

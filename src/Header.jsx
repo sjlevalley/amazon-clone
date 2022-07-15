@@ -1,14 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 import { auth } from "./firebase-setup";
 import "./Header.css";
-import { useStateValue } from "./StateProvider";
 
 function Header() {
   // eslint-disable-next-line
-  const [{ basket, user }, dispatch] = useStateValue();
+  const user = useSelector((state) => state.user.user);
+  const basket = useSelector((state) => state.basket.basket);
+  // const [{ basket }] = useStateValue();
 
   const handleAuth = () => {
     if (user) {
