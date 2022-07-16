@@ -1,19 +1,19 @@
-import React from "react";
-import CurrencyFormat from "react-currency-format";
-import moment from "moment";
+import React from 'react'
+import CurrencyFormat from 'react-currency-format'
+import moment from 'moment'
 // Local imports
-import CheckoutProduct from "./CheckoutProduct";
-import "./Order.css";
+import CheckoutProduct from './CheckoutProduct'
+import './Order.css'
 
-function Order({ order }) {
+function Order ({ order }) {
   return (
-    <div className="order">
-      <div className="order__title">
+    <div className='order'>
+      <div className='order__title'>
         <h3>Order ID:</h3>
         <small>{order.id}</small>
       </div>
-      <p>{moment.unix(order.data.created).format("MMMM Do YYYY, h:mma")}</p>
-      {order.data.basket?.map((item) => (
+      <p>{moment.unix(order.data.created).format('MMMM Do YYYY, h:mma')}</p>
+      {order.data.basket?.map(item => (
         <CheckoutProduct
           id={item.id}
           title={item.title}
@@ -24,17 +24,17 @@ function Order({ order }) {
         />
       ))}
       <CurrencyFormat
-        renderText={(value) => (
-          <h3 className="order__total">Order Total: {value}</h3>
+        renderText={value => (
+          <h3 className='order__total'>Order Total: {value}</h3>
         )}
         decimalScale={2}
         value={order.data.amount / 100}
-        displayType={"text"}
+        displayType={'text'}
         thousandSeparator={true}
-        prefix={"$"}
+        prefix={'$'}
       />
     </div>
-  );
+  )
 }
 
-export default Order;
+export default Order

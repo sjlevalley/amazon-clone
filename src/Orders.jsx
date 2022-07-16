@@ -1,51 +1,51 @@
-import React, { useState, useEffect } from "react";
-import { query, orderBy, collection, getDocs } from "firebase/firestore";
-import { useSelector } from "react-redux";
+import React, { useState, useEffect } from 'react'
+import { query, orderBy, collection, getDocs } from 'firebase/firestore'
+import { useSelector } from 'react-redux'
 // Local imports
-import Order from "./Order";
-import { db } from "./firebase-setup";
-import "./Orders.css";
+import Order from './Order'
+import { db } from './firebase-setup'
+import './Orders.css'
 
-function Orders() {
+function Orders () {
   // eslint-disable-next-line
-  const user = useSelector((state) => state.user.user);
-  const [orders, setOrders] = useState([]);
+  const user = useSelector(state => state.user.user)
+  const [orders, setOrders] = useState([])
 
   useEffect(() => {
     if (user) {
       const fetchOrders = async () => {
-        const userRef = collection(db, `users/${user?.uid}/orders`);
-        const q = query(userRef, orderBy("created", "desc"));
-        const querySnapshot = await getDocs(q);
-        const updatedOrders = [];
-        querySnapshot.forEach((doc) => {
+        const userRef = collection(db, `users/${user?.uid}/orders`)
+        const q = query(userRef, orderBy('created', 'desc'))
+        const querySnapshot = await getDocs(q)
+        const updatedOrders = []
+        querySnapshot.forEach(doc => {
           updatedOrders.push({
             id: doc.id,
-            data: doc.data(),
-          });
-        });
-        setOrders(updatedOrders);
-      };
+            data: doc.data()
+          })
+        })
+        setOrders(updatedOrders)
+      }
       try {
-        fetchOrders();
+        fetchOrders()
       } catch (e) {
-        console.error(e);
+        console.error(e)
       }
     } else {
-      setOrders([]);
+      setOrders([])
     }
-  }, [user]);
+  }, [user])
 
   return (
-    <div className="orders">
+    <div className='orders'>
       <h1>Your Orders</h1>
-      <div className="orders__order">
-        {orders?.map((order) => (
+      <div className='orders__order'>
+        {orders?.map(order => (
           <Order order={order} />
         ))}
       </div>
     </div>
-  );
+  )
 }
 
-export default Orders;
+export default Orders

@@ -10,7 +10,6 @@ function Header() {
   // eslint-disable-next-line
   const user = useSelector((state) => state.user.user);
   const basket = useSelector((state) => state.basket.basket);
-  // const [{ basket }] = useStateValue();
 
   const handleAuth = () => {
     if (user) {

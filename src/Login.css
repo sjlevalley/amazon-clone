@@ -14,7 +14,7 @@
 
 .login__container {
   border: 1px solid lightgray;
-  border-radius: 5px;
+  border-radius: 2px;
   display: flex;
   flex-direction: column;
   height: fit-content;
@@ -33,6 +33,7 @@
 
 .login__container > form > input {
   background-color: white;
+  border-radius: 2px;
   height: 30px;
   margin-bottom: 10px;
   width: 98%;
@@ -48,16 +49,30 @@
   border: 1px solid;
   border-color: #a88734 #9c7e31 #846a29;
   border-radius: 2px;
+  cursor: pointer;
   height: 30px;
   margin-top: 10px;
   width: 100%;
+}
+.login__signInButton:hover {
+  transform: scale(1.02);
+}
+.login__signInButton:active {
+  transform: scale(0.98);
 }
 
 .login__registerButton {
   border: 1px solid;
   border-color: darkgray;
   border-radius: 2px;
+  cursor: pointer;
   height: 30px;
   margin-top: 10px;
   width: 100%;
+}
+.login__registerButton:hover {
+  transform: scale(1.02);
+}
+.login__registerButton:active {
+  transform: scale(0.98);
 }

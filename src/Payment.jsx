@@ -5,6 +5,8 @@ import axios from "./axios";
 import CurrencyFormat from "react-currency-format";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { doc, setDoc } from "firebase/firestore";
+import Box from "@mui/material/Box";
+import CircularProgress from "@mui/material/CircularProgress";
 // Local imports
 import CheckoutProduct from "./CheckoutProduct";
 import "./Payment.css";
@@ -126,8 +128,27 @@ function Payment() {
                   thousandSeparator={true}
                   prefix={"$"}
                 />
-                <button disabled={processing || disabled || succeeded}>
-                  <span>{processing ? <p>Processing</p> : "Buy Now"}</span>
+                <button
+                  disabled={
+                    processing || disabled || succeeded || basket.length === 0
+                  }
+                >
+                  <span>
+                    {processing ? (
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <p>Processing</p>
+                        <CircularProgress size={20} color="inherit" />
+                      </Box>
+                    ) : (
+                      "Buy Now"
+                    )}
+                  </span>
                 </button>
               </div>
               {error && <div>{error}</div>}

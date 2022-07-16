@@ -1,44 +1,40 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import Box from "@mui/material/Box";
+import CircularProgress from "@mui/material/CircularProgress";
 import {
-  auth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from "./firebase-setup";
+  signInAction,
+  registerUserAction,
+} from "./redux/userSlice/userActions";
+import { setError } from "./redux/uiSlice/uiReducer";
 import "./Login.css";
 
 function Login() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const submitting = useSelector((state) => state.ui.submitting);
+  const error = useSelector((state) => state.ui.error?.code);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const signIn = async (e) => {
     e.preventDefault();
-    try {
-      const signedInUser = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      console.log(signedInUser);
-      navigate("/");
-    } catch (e) {
-      console.error(e);
-    }
+    dispatch(signInAction(email, password, navigate));
   };
 
   const register = async (e) => {
     e.preventDefault();
-    try {
-      const createdUser = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      console.log(createdUser);
-      navigate("/");
-    } catch (e) {
-      console.error(e);
+    dispatch(registerUserAction(email, password, navigate));
+  };
+
+  const handleChange = (e, field) => {
+    dispatch(setError(null));
+    if (field === "email") {
+      setEmail(e.target.value);
+    }
+    if (field === "password") {
+      setPassword(e.target.value);
     }
   };
 
@@ -60,22 +56,43 @@ function Login() {
           <input
             type="text"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => handleChange(e, "email")}
           />
-
-          <h5>Password</h5>
+          {error === "auth/user-not-found" && (
+            <Box
+              sx={{
+                color: "red",
+                fontSize: "12px",
+                margin: "-8px 0 5px 0",
+              }}
+            >
+              <p>Credentials Invalid</p>
+            </Box>
+          )}
           <input
             type="password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => handleChange(e, "password")}
           />
-
+          <h5>Password</h5>
           <button
             type="submit"
             className="login__signInButton"
             onClick={signIn}
           >
-            Sign In
+            {submitting === "login" ? (
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <CircularProgress size={20} color="inherit" />
+              </Box>
+            ) : (
+              "Sign In"
+            )}
           </button>
         </form>
 
@@ -86,7 +103,19 @@ function Login() {
         </p>
 
         <button className="login__registerButton" onClick={register}>
-          Create your Amazon Account
+          {submitting === "register" ? (
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <CircularProgress size={20} color="inherit" />
+            </Box>
+          ) : (
+            "Create your Amazon Account"
+          )}
         </button>
       </div>
     </div>

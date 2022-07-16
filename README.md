@@ -1,6 +1,6 @@
 # AMAZON CLONE - ![](https://img.shields.io/badge/License-MIT-yellow.svg)
 
-![App Screenshot](AppScreenshot.png "Description")
+![App Screenshot](AppScreenshot.png 'Description')
 
 <p align="left">
     <img src="https://img.shields.io/badge/Javascript-yellow" />
@@ -21,7 +21,7 @@ This is an Amazon.com clone!
 - [Contributing](#Contributing)
 - [Tests](#Tests)
 - [DevTeam](#Team)
-<hr>
+  <hr>
 
 ## INSTALLATION
 
@@ -34,12 +34,12 @@ Please use `npm i` to install node dependencies
 ## LICENSE
 
 - This project is licensed under the MIT license.
-<hr>
+  <hr>
 
 ## USAGE
 
 - This project requires Requires node v14+ to run.
-<hr>
+  <hr>
 
 ## Credits
 
