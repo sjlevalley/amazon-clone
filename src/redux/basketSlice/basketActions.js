@@ -6,7 +6,6 @@ import { db } from '../../firebase-setup'
 import { doc, setDoc } from 'firebase/firestore'
 
 export const getClientSecretAction = basket => {
-  console.log('GETTING CLIENT SECRET!')
   return async dispatch => {
     dispatch(setLoading('clientSecret'))
     try {
@@ -34,7 +33,6 @@ export const submitPaymentAction = (
   user,
   navigate
 ) => {
-  console.log('GETTING CLIENT SECRET!')
   return async dispatch => {
     if (basket.length === 0) {
       return

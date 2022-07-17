@@ -22,7 +22,7 @@ function Orders () {
       {user ? (
         <>
           <div className='orders__order'>
-            {orders.length > 0 ? (
+            {!orders ? (
               <div className='orders__empty'>
                 <span>
                   You have any prior orders, once you make a purchase, all
