@@ -14,7 +14,7 @@ function Orders () {
   useEffect(() => {
     dispatch(getUserOrdersAction(user))
     // eslint-disable-next-line
-  }, [user])
+  }, [])
 
   return (
     <div className='orders'>
