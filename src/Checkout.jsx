@@ -1,5 +1,6 @@
 // TODO: add react flip move to the products
 import React from 'react'
+import { Link } from 'react-router-dom'
 import Subtotal from './Subtotal'
 import CheckoutProduct from './CheckoutProduct'
 import { useSelector } from 'react-redux'
@@ -19,16 +20,23 @@ function Checkout () {
         />
         <h3>{user?.email}</h3>
         <h2 className='checkout__title'>Your shopping Basket</h2>
-        {basket.map(item => (
-          <CheckoutProduct
-            id={item.id}
-            key={item.id}
-            image={item.image}
-            title={item.title}
-            price={item.price}
-            rating={item.rating}
-          />
-        ))}
+        {basket.length === 0 ? (
+          <div className='checkout__emptyBasket'>
+            <span>Your shopping cart is empty</span>
+            <Link to='/'>Click here to continue shopping</Link>
+          </div>
+        ) : (
+          basket.map(item => (
+            <CheckoutProduct
+              id={item.id}
+              key={item.id}
+              image={item.image}
+              title={item.title}
+              price={item.price}
+              rating={item.rating}
+            />
+          ))
+        )}
       </div>
       <div className='checkout__right'>
         <Subtotal />

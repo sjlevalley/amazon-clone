@@ -2,7 +2,8 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import CurrencyFormat from 'react-currency-format'
-import { getBasketTotal } from './reducer'
+// Local imports
+import { getBasketTotal } from './util'
 import './Subtotal.css'
 
 function Subtotal () {

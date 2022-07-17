@@ -1,49 +1,46 @@
-import React, { useState, useEffect } from 'react'
-import { query, orderBy, collection, getDocs } from 'firebase/firestore'
-import { useSelector } from 'react-redux'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 // Local imports
 import Order from './Order'
-import { db } from './firebase-setup'
+import { getUserOrdersAction } from './redux/userSlice/userActions'
 import './Orders.css'
 
 function Orders () {
-  // eslint-disable-next-line
+  const dispatch = useDispatch()
   const user = useSelector(state => state.user.user)
-  const [orders, setOrders] = useState([])
+  const orders = useSelector(state => state.user.orders)
 
   useEffect(() => {
-    if (user) {
-      const fetchOrders = async () => {
-        const userRef = collection(db, `users/${user?.uid}/orders`)
-        const q = query(userRef, orderBy('created', 'desc'))
-        const querySnapshot = await getDocs(q)
-        const updatedOrders = []
-        querySnapshot.forEach(doc => {
-          updatedOrders.push({
-            id: doc.id,
-            data: doc.data()
-          })
-        })
-        setOrders(updatedOrders)
-      }
-      try {
-        fetchOrders()
-      } catch (e) {
-        console.error(e)
-      }
-    } else {
-      setOrders([])
-    }
+    dispatch(getUserOrdersAction(user))
+    // eslint-disable-next-line
   }, [user])
 
   return (
     <div className='orders'>
       <h1>Your Orders</h1>
-      <div className='orders__order'>
-        {orders?.map(order => (
-          <Order order={order} />
-        ))}
-      </div>
+      {user ? (
+        <>
+          <div className='orders__order'>
+            {orders.length > 0 ? (
+              <div className='orders__empty'>
+                <span>
+                  You have any prior orders, once you make a purchase, all
+                  previous orders will show up here.
+                </span>
+                <Link to='/'>Click here to continue shopping</Link>
+              </div>
+            ) : (
+              orders?.map(order => <Order order={order} />)
+            )}
+          </div>
+        </>
+      ) : (
+        <div className='orders__empty'>
+          <span>Must be logged in to view orders</span>
+          <Link to='/login'>Click here to Login/Signup</Link>
+        </div>
+      )}
     </div>
   )
 }

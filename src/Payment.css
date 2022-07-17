@@ -7,12 +7,12 @@
   margin: 25px 0;
 }
 
-.payment__container > h1 {
+.payment__container > h2 {
   background-color: rgb(234, 237, 237);
   border-bottom: 1px solid lightgray;
   font-weight: 400;
-  padding: 10px;
-  text-align: center;
+  padding: 10px 40px;
+  text-align: left;
 }
 
 .payment__container > h1 a {
@@ -27,7 +27,7 @@
 }
 
 .payment__title {
-  flex: 0.2;
+  flex: 0.3;
 }
 
 .payment__address,
@@ -37,6 +37,7 @@
 }
 
 .payment__details > form {
+  margin-top: 8px;
   max-width: 400px;
 }
 
@@ -63,4 +64,15 @@
 }
 .payment__details > form > div > button:active {
   transform: scale(0.98);
+}
+
+.payment__emptyBasket {
+  justify-content: center;
+  color: #11111190;
+  display: flex;
+  flex-direction: column;
+}
+
+.payment__emptyBasket > span {
+  margin-bottom: 10px;
 }

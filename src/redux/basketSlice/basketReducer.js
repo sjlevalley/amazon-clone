@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-  basket: []
+  basket: [],
+  clientSecret: null
 }
 
 export const basketReducer = createSlice({
@@ -9,17 +10,18 @@ export const basketReducer = createSlice({
   initialState,
   reducers: {
     addToBasket: (state, action) => {
-      console.log(action.payload)
       state.basket = [...state.basket, action.payload]
     },
     emptyBasket: (state, action) => {
       state.basket = []
     },
+    setClientSecret: (state, action) => {
+      state.clientSecret = action.payload
+    },
     removeFromBasket: (state, action) => {
       const index = state.basket.findIndex(
         basketItem => basketItem.id === action.payload
       )
-      console.log(index)
       let newBasket = [...state.basket]
       if (index >= 0) {
         newBasket.splice(index, 1)
@@ -37,7 +39,8 @@ export const basketReducer = createSlice({
 export const {
   addToBasket,
   emptyBasket,
-  removeFromBasket
+  removeFromBasket,
+  setClientSecret
 } = basketReducer.actions
 
 export default basketReducer.reducer
