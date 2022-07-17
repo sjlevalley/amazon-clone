@@ -1,9 +1,10 @@
 import axios from '../../axios'
 import { setClientSecret, emptyBasket } from './basketReducer'
-import { setLoading, setSubmitting, setError } from '../uiSlice/uiReducer'
+import { setLoading, setSubmitting } from '../uiSlice/uiReducer'
 import { getBasketTotal } from '../../util'
 import { db } from '../../firebase-setup'
 import { doc, setDoc } from 'firebase/firestore'
+import { setNotification } from '../uiSlice/uiReducer'
 
 export const getClientSecretAction = basket => {
   return async dispatch => {
@@ -14,11 +15,21 @@ export const getClientSecretAction = basket => {
         // Stripe expects the total in a currencies subunits
         url: `/payments/create?total=${getBasketTotal(basket) * 100}`
       })
-      console.log(data.clientSecret)
       dispatch(setClientSecret(data.clientSecret))
     } catch (e) {
       console.error(e)
-      dispatch(setError(e))
+      let level = 'error'
+      let message = 'Oops! - An error occurred!'
+      if (basket.length === 0) {
+        level = 'warning'
+        message = 'Warning - Please select at least 1 item to proceed'
+      }
+      dispatch(
+        setNotification({
+          level,
+          message
+        })
+      )
     }
     dispatch(setLoading(false))
   }
@@ -35,6 +46,13 @@ export const submitPaymentAction = (
 ) => {
   return async dispatch => {
     if (basket.length === 0) {
+      dispatch(
+        setNotification({
+          level: 'error',
+          message:
+            'Oops! - You must have items in your basket to perform this action!'
+        })
+      )
       return
     }
     dispatch(setSubmitting(true))
@@ -52,11 +70,23 @@ export const submitPaymentAction = (
         amountDollars: `$${paymentIntent.amount / 100}`,
         created: paymentIntent.created
       })
+      dispatch(
+        setNotification({
+          level: 'success',
+          message: 'Payment Successful!'
+        })
+      )
+      dispatch(emptyBasket())
+      navigate('/')
     } catch (e) {
       console.error(e)
+      dispatch(
+        setNotification({
+          level: 'error',
+          message: 'Oops! - An error occurred while processing this request!'
+        })
+      )
     }
     dispatch(setSubmitting(false))
-    dispatch(emptyBasket())
-    navigate('/')
   }
 }

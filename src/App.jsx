@@ -13,6 +13,7 @@ import { auth } from './firebase-setup'
 import { Elements } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js'
 import { setUser } from './redux/userSlice/userReducer'
+import CustomizedSnackbars from './Notification'
 
 const promise = loadStripe(
   'pk_test_51LKNirLXlD5FhXLSqnuCxjet0Jq7aELEBpUNIgiKUKZdv2a3wj6EI1YEx0iNfSoKu1xZXHMq0Pje1J9HC51ps3sd00KeVxwvQl'
@@ -64,6 +65,7 @@ function App () {
   return (
     <Router>
       <div className='app'>
+        <CustomizedSnackbars />
         <Routes>
           <Route path='/' element={<HeaderHome />} />
           <Route path='/orders' element={<HeaderOrders />} />

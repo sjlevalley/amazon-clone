@@ -1,6 +1,6 @@
 import { query, orderBy, collection, getDocs } from 'firebase/firestore'
 import { setUser, setOrders } from './userReducer'
-import { setSubmitting, setError } from '../uiSlice/uiReducer'
+import { setSubmitting, setError, setNotification } from '../uiSlice/uiReducer'
 import {
   auth,
   createUserWithEmailAndPassword,
@@ -15,6 +15,12 @@ export const signInAction = (email, password, navigate) => {
       const { user } = await signInWithEmailAndPassword(auth, email, password)
       dispatch(setUser(user))
       navigate('/')
+      dispatch(
+        setNotification({
+          level: 'success',
+          message: 'Welcome to the Amazon Clone!'
+        })
+      )
     } catch (e) {
       console.error(e)
       dispatch(setError(e))
@@ -34,6 +40,12 @@ export const registerUserAction = (email, password, navigate) => {
       )
       dispatch(setUser(user))
       navigate('/')
+      dispatch(
+        setNotification({
+          level: 'success',
+          message: 'Welcome to the Amazon Clone!'
+        })
+      )
     } catch (e) {
       console.error(e)
       dispatch(setError(e.response.data))
@@ -63,6 +75,12 @@ export const getUserOrdersAction = user => {
       } catch (e) {
         console.error(e)
         dispatch(setError(e.response.data))
+        dispatch(
+          setNotification({
+            level: 'error',
+            message: 'Oops! - An error occurred while processing your request'
+          })
+        )
       }
     } else {
       dispatch(setOrders([]))

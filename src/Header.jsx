@@ -1,20 +1,28 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import SearchIcon from '@mui/icons-material/Search'
 import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket'
 // Local imports
 import { auth } from './firebase-setup'
+import { setNotification } from './redux/uiSlice/uiReducer'
 import './Header.css'
 
 function Header () {
   // eslint-disable-next-line
+  const dispatch = useDispatch()
   const user = useSelector(state => state.user.user)
   const basket = useSelector(state => state.basket.basket)
 
   const handleAuth = () => {
     if (user) {
       auth.signOut()
+      dispatch(
+        setNotification({
+          level: 'success',
+          message: 'User Successfully Signed Out!'
+        })
+      )
     }
   }
 

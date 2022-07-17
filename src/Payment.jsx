@@ -56,7 +56,12 @@ function Payment () {
     <div className='payment'>
       <div className='payment__container'>
         <h2>
-          Checkout &nbsp; (<Link to='/checkout'> {basket?.length} items</Link>)
+          Checkout &nbsp; (
+          <Link to='/checkout'>
+            {' '}
+            {basket?.length} {basket.length === 1 ? 'item' : 'items'}
+          </Link>
+          )
         </h2>
         <div className='payment__section'>
           <div className='payment__title'>
