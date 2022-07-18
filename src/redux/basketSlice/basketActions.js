@@ -70,6 +70,7 @@ export const submitPaymentAction = (
         amountDollars: `$${paymentIntent.amount / 100}`,
         created: paymentIntent.created
       })
+      navigate('/')
       dispatch(
         setNotification({
           level: 'success',
@@ -77,7 +78,6 @@ export const submitPaymentAction = (
         })
       )
       dispatch(emptyBasket())
-      navigate('/')
     } catch (e) {
       console.error(e)
       dispatch(

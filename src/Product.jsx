@@ -1,13 +1,14 @@
-import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { addToBasket } from './redux/basketSlice/basketReducer'
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addToBasket } from "./redux/basketSlice/basketReducer";
+import { setNotification } from "./redux/uiSlice/uiReducer";
 
-import './Product.css'
+import "./Product.css";
 
-function Product ({ id, title, image, price, rating }) {
+function Product({ id, title, image, price, rating }) {
   // eslint-disable-next-line
-  const dispatch = useDispatch()
-  const user = useSelector(state => state.user.user)
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user.user);
 
   const addItem = () => {
     const newItem = {
@@ -15,20 +16,28 @@ function Product ({ id, title, image, price, rating }) {
       title,
       image,
       price,
-      rating
+      rating,
+    };
+    if (!user) {
+      dispatch(
+        setNotification({
+          level: "warning",
+          message: "Oops! - You must be logged in to add item to cart!",
+        })
+      );
+      return;
     }
-
-    dispatch(addToBasket(newItem))
-  }
+    dispatch(addToBasket(newItem));
+  };
   return (
-    <div className='product'>
-      <div className='product__info'>
+    <div className="product">
+      <div className="product__info">
         <p>{title}</p>
-        <p className='product__price'>
+        <p className="product__price">
           <small>$</small>
           <strong>{price}</strong>
         </p>
-        <div className='product__rating'>
+        <div className="product__rating">
           {Array(rating)
             .fill()
             .map((_, i) => (
@@ -36,16 +45,12 @@ function Product ({ id, title, image, price, rating }) {
             ))}
         </div>
       </div>
-      <img src={image} alt='' />
-      <button
-        disabled={!user}
-        className='product__addToBasket'
-        onClick={() => addItem()}
-      >
-        {!user ? 'Login to Add Product' : 'Add to Basket'}
+      <img src={image} alt="" />
+      <button className="product__addToBasket" onClick={() => addItem()}>
+        {!user ? "Login to Add Product" : "Add to Basket"}
       </button>
     </div>
-  )
+  );
 }
 
-export default Product
+export default Product;
