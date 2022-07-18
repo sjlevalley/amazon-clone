@@ -48,9 +48,9 @@ function Payment() {
     );
   };
 
-  const handleChange = (e) => {
-    setError(e.error ? e.error.message : "");
-  };
+  // const handleChange = (e) => {
+  //   setError(e.error ? e.error.message : "");
+  // };
 
   return (
     <div className="payment">
